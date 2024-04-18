@@ -1,0 +1,17 @@
+#cart, #product-list {
+  float: left;
+  width: 300px;
+  margin-right: 20px;
+}
+
+#total {
+  font-weight: bold;
+}
+
+li {
+  cursor: pointer;
+}
+
+li:hover {
+  background-color: lightgray;
+}

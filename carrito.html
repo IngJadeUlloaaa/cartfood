@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ... (código previo) ... -->
+</head>
+<body>
+  <h1>Carrito de Compras</h1>
+  <ul id="cart-list"></ul>
+  <p>Total a pagar: $<span id="total-amount"></span></p>
+
+  <script>
+    // Función para obtener los parámetros de la URL
+    function getURLParams() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const params = {};
+      for (const [key, value] of urlParams.entries()) {
+        params[key] = value;
+      }
+      return params;
+    }
+
+    // Función para mostrar los productos en el carrito
+    function showCart() {
+      const cartListElement = document.getElementById("cart-list");
+      const totalAmountElement = document.getElementById("total-amount");
+
+      // Limpiar la lista antes de mostrar los productos
+      cartListElement.innerHTML = "";
+
+      let total = 0;
+
+      // Obtener los productos de los parámetros de la URL
+      const urlParams = getURLParams();
+      for (const key in urlParams) {
+        if (key.startsWith("name")) {
+          const product = {
+            name: urlParams[key],
+            price: parseFloat(urlParams[`price${key.slice(4)}`]),
+            image: urlParams[`image${key.slice(4)}`],
+            color: urlParams[`color${key.slice(4)}`],
+            ram: urlParams[`ram${key.slice(4)}`],
+          };
+          products.push(product);
+        }
+      }
+
+      products.forEach((product) => {
+        const li = document.createElement("li");
+
+        const img = document.createElement("img");
+        img.src = product.image;
+        img.alt = product.name;
+        li.appendChild(img);
+
+        const productName = document.createElement("span");
+        productName.innerText = product.name;
+        li.appendChild(productName);
+
+        const productPrice = document.createElement("span");
+        productPrice.innerText = `$${product.price.toFixed(2)}`;
+        li.appendChild(productPrice);
+
+        cartListElement.appendChild(li);
+
+        // Calcular el total a pagar
+        total += product.price;
+      });
+
+      // Mostrar el total a pagar
+      totalAmountElement.innerText = total.toFixed(2);
+    }
+
+    // Mostrar el carrito al cargar la página
+    showCart();
+  </script>
+</body>
+</html>
